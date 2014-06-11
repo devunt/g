@@ -1,0 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+GITLAB_SERVERS = { # 'GitLab server IP': 'GitLab server host (to display on irc)',
+}
+
+IRC_HOST = 'irc.ozinger.org'
+IRC_PORT = 6667
+IRC_NICK = ''
+IRC_CHANNEL = '' # with '#'
+IRC_CHANNEL_PW = ''
+
+FLASK_SECRET_KEY = 'sjadfh82hu3insdifas8943vyb89y80B^%&^$(&C75(T8nh7ty^%V&' # random string
