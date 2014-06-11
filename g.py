@@ -53,7 +53,7 @@ app.config['SECRET_KEY'] = config.FLASK_SECRET_KEY
 def hook():
     json = simplejson.loads(request.data)
     repo = json['repository']['name']
-    branch = json['ref'].lstrip('refs/heads/')
+    branch = json['ref'].replace('refs/heads/', '')
     totaldiff = ''
     if 'GitHub Hookshot' in request.headers.get('User-Agent', ''): #GitHub
         server = 'github.com'
