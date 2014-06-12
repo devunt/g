@@ -6,6 +6,7 @@ import simplejson
 from flask import Flask, request, jsonify
 from threading import Thread
 from socket import socket, AF_INET, SOCK_STREAM
+import re
 
 import config
 
@@ -53,7 +54,7 @@ app.config['SECRET_KEY'] = config.FLASK_SECRET_KEY
 def hook():
     json = simplejson.loads(request.data)
     repo = json['repository']['name']
-    branch = json['ref'].lstrip('refs/heads/')
+    branch = re.sub(r'^refs/heads/', '', json['ref'])
     totaldiff = ''
     if 'GitHub Hookshot' in request.headers.get('User-Agent', ''): #GitHub
         server = 'github.com'
