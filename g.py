@@ -69,7 +69,7 @@ def hook():
             branch = re.sub(r'^refs/heads/', '', json['ref'])
             totaldiff = ''
 
-            if 'GitHub Hookshot' in request.headers.get('User-Agent', ''): #GitHub
+            if 'GitHub-Hookshot' in request.headers.get('User-Agent', ''): #GitHub
                 server = 'github.com'
                 user_name = json['pusher']['name']
                 totaldiff = ': \00302\x1f%s\x0f' % short_url(json['compare'])
