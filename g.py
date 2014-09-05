@@ -97,10 +97,12 @@ def hook():
             g.send_message('\00313%s\x0f/\00306%s\x0f \00314%s\x0f \00315%s\x0f: %s | \00302\x1f%s\x0f' % (repo, branch, commit_id, name, message, short_url(url)))
         if len(json['commits']) > 3:
             g.send_message('and more...')
+
     except Exception:
         ty, exc, tb = sys.exc_info()
         g.send_message('ERROR! %s %s' % (ty, exc))
         traceback.print_exception(ty, exc, tb)
+
     finally:
         return ''
 
