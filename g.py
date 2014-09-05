@@ -91,7 +91,10 @@ def hook():
                 message = commit['message']
                 url = commit['url']
 
-            g.send_message('\00313%s\x0f/\00306%s\x0f \00314%s\x0f \00315%s\x0f: %s | \00302\x1f%s\x0f' % (repo, branch, commit_id, name.encode('utf-8'), message.encode('utf-8'), short_url(url)))
+            name = name.encode('utf-8')
+            message = message.encode('utf-8')
+
+            g.send_message('\00313%s\x0f/\00306%s\x0f \00314%s\x0f \00315%s\x0f: %s | \00302\x1f%s\x0f' % (repo, branch, commit_id, name, message, short_url(url)))
         if len(json['commits']) > 3:
             g.send_message('and more...')
     except Exception:
