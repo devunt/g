@@ -39,7 +39,7 @@ class G(Thread):
         print '<<< %s' % line
 
     def send_message(self, line):
-        self.send_raw_line('PRIVMSG %s :%s' % (config.IRC_CHANNEL, line))
+        self.send_raw_line('PRIVMSG %s :%s' % (config.IRC_CHANNEL, line.encode('utf-8')))
 
     def on_welcome(self):
         self.send_raw_line('JOIN %s %s' % (config.IRC_CHANNEL, config.IRC_CHANNEL_PW))
@@ -90,9 +90,6 @@ def hook():
                 name = commit['author']['name']
                 message = commit['message']
                 url = commit['url']
-
-            name = name.encode('utf-8')
-            message = message.encode('utf-8')
 
             g.send_message('\00313%s\x0f/\00306%s\x0f \00314%s\x0f \00315%s\x0f: %s | \00302\x1f%s\x0f' % (repo, branch, commit_id, name, message, short_url(url)))
         if len(json['commits']) > 3:
