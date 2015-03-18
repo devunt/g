@@ -62,33 +62,33 @@ def hook():
     try:
         compare = ''
         if 'Bitbucket.org' in request.headers.get('User-Agent', ''): #Bitbucket
-            json = simplejson.loads(request.form['payload'])
-            repo = json['repository']['name']
-            branch = json['commits'][-1]['branch']
+            payload = json.loads(request.form['payload'])
+            repo = payload['repository']['name']
+            branch = payload['commits'][-1]['branch']
 
             server = 'bitbucket.org'
-            user_name = json['user']
+            user_name = payload['user']
         else:
-            json = simplejson.loads(request.data)
-            repo = json['repository']['name']
-            branch = re.sub(r'^refs/heads/', '', json['ref'])
+            payload = json.loads(request.data)
+            repo = payload['repository']['name']
+            branch = re.sub(r'^refs/heads/', '', payload['ref'])
 
             if 'GitHub-Hookshot' in request.headers.get('User-Agent', ''): #GitHub
                 server = 'github.com'
                 user_name = json['pusher']['name']
-                compare = ': \00302\x1f%s\x0f' % short_url(json['compare'])
+                compare = ': \00302\x1f%s\x0f' % short_url(payload['compare'])
             else: # GitLab
                 server = config.GITLAB_SERVERS[request.headers.getlist("X-Forwarded-For")[0]]
                 user_name = json['user_name']
 
-        count = len(json['commits'])
+        count = len(payload['commits'])
         g.send_message('[\00306%s\x0f/\00313%s\x0f] \00315%s\x0f pushed \002%d\x0f new commit%s to \00306%s\x0f%s' % (server, repo, user_name, count, 's'[count==1:], branch, compare))
-        for commit in json['commits'][:3]:
+        for commit in payload['commits'][:3]:
             if server == 'bitbucket.org':
                 commit_id = commit['raw_node'][:7]
                 name = commit['author']
                 message = commit['message']
-                url = 'https://bitbucket.org%scommits/%s' % (json['repository']['absolute_url'], commit['raw_node'])
+                url = 'https://bitbucket.org%scommits/%s' % (payload['repository']['absolute_url'], commit['raw_node'])
             else:
                 commit_id = commit['id'][:7]
                 name = commit['author']['name']
@@ -98,7 +98,7 @@ def hook():
             message = message.splitlines()[0]
 
             g.send_message('\00313%s\x0f/\00306%s\x0f \00314%s\x0f \00315%s\x0f: %s | \00302\x1f%s\x0f' % (repo, branch, commit_id, name, message, short_url(url)))
-        if len(json['commits']) > 3:
+        if len(payload['commits']) > 3:
             g.send_message('and more...')
 
     except Exception:
