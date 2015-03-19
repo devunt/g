@@ -9,3 +9,5 @@ IRC_CHANNEL = '' # with prefixed '#'
 IRC_CHANNEL_PW = ''
 
 FLASK_SECRET_KEY = 'sjadfh82hu3insdifas8943vyb89y80B^%&^$(&C75(T8nh7ty^%V&' # random string
+
+TRUST_PROXY = False
