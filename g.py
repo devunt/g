@@ -108,8 +108,8 @@ def hook():
             remote_addr = request.remote_addr
             access_route = request.access_route
 
-            if config.TRUST_PROXY:
-                server_ip = access_route
+            if config.TRUST_PROXY and access_route:
+                server_ip = access_route[0]
             else:
                 server_ip = remote_addr
 
