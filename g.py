@@ -120,6 +120,8 @@ def hook():
                     event = 'issue'
                 elif payload['object_kind'] == 'merge_request':
                     event = 'pr'
+                elif payload['object_kind'] == 'push':
+                    event = 'push'
             else:
                 event = 'push'
 
