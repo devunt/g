@@ -81,7 +81,7 @@ def hook():
                 payload = json.loads(request.form['payload'])
                 event = 'push'
             else:
-                payload = json.loads(request.data.decode())
+                payload = json.loads(request.data.decode("utf-8"))
                 event = 'pr'
 
             print(payload)
@@ -89,7 +89,7 @@ def hook():
             server = 'bitbucket.org'
 
         elif 'GitHub-Hookshot' in request.headers.get('User-Agent', ''): # GitHub
-            payload = json.loads(request.data.decode())
+            payload = json.loads(request.data.decode("utf-8"))
 
             server = 'github.com'
 
@@ -103,7 +103,7 @@ def hook():
                 event = 'push'
 
         else: # GitLab
-            payload = json.loads(request.data.decode())
+            payload = json.loads(request.data.decode("utf-8"))
             
             remote_addr = request.remote_addr
             access_route = request.access_route
